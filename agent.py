@@ -1,3 +1,7 @@
+"""
+Cover letter generator agent
+"""
+
 # Standard library imports
 import os
 import sys
