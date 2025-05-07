@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+
+langchain
+langchain-openai
+langgraph
+langtrace_python_sdk
+
+# For PDF loading
+langchain-community # PyPDFLoader is often here or in langchain
+pypdf # PyPDFLoader dependency
+
+# For dummy PDF generation in agent_logic.py's test block
+reportlab 
