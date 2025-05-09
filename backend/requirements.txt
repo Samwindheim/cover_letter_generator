@@ -1,6 +1,7 @@
 fastapi
 uvicorn[standard]
 python-dotenv
+python-multipart # For FastAPI form data and file uploads
 
 langchain
 langchain-openai
