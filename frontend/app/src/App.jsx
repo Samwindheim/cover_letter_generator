@@ -68,55 +68,63 @@ function App() {
         <h1>Cover Letter Generator</h1>
       </header>
       <main>
-        <form onSubmit={handleSubmit} className="cover-letter-form">
-          <div className="form-group">
-            <label htmlFor="resumeFile">Resume PDF:</label>
-            <input
-              type="file"
-              id="resumeFile"
-              onChange={handleFileChange}
-              accept=".pdf"
-              disabled={isLoading}
-            />
-            {resumeFile && <p className="file-name">Selected file: {resumeFile.name}</p>}
-            <small>Upload your resume in PDF format.</small>
-          </div>
+        <div className="main-content-columns">
+          <form onSubmit={handleSubmit} className="cover-letter-form" id="coverLetterActualForm">
+            <div className="form-inputs-column">
+              <div className="form-group">
+                <label htmlFor="resumeFile">Resume PDF:</label>
+                <input
+                  type="file"
+                  id="resumeFile"
+                  onChange={handleFileChange}
+                  accept=".pdf"
+                  disabled={isLoading}
+                />
+                {resumeFile && <p className="file-name">Selected file: {resumeFile.name}</p>}
+                <small>Upload your resume in PDF format.</small>
+              </div>
 
-          <div className="form-group">
-            <label htmlFor="jobDescription">Job Description:</label>
-            <textarea
-              id="jobDescription"
-              value={jobDescription}
-              onChange={(e) => setJobDescription(e.target.value)}
-              rows={10}
-              placeholder="Paste the job description here..."
-              disabled={isLoading}
-            />
-          </div>
+              <div className="form-group">
+                <label htmlFor="jobDescription">Job Description:</label>
+                <textarea
+                  id="jobDescription"
+                  value={jobDescription}
+                  onChange={(e) => setJobDescription(e.target.value)}
+                  rows={10}
+                  placeholder="Paste the job description here..."
+                  disabled={isLoading}
+                />
+              </div>
+            </div>
+          </form>
 
-          <button type="submit" disabled={isLoading || !resumeFile}>
-            {isLoading ? 'Generating...' : 'Generate Cover Letter'}
-          </button>
-        </form>
+          <div className="results-area-column">
+            <div className="form-submit-column">
+              <button type="submit" form="coverLetterActualForm" disabled={isLoading || !resumeFile}>
+                {isLoading ? 'Generating...' : 'Generate Cover Letter'}
+              </button>
+            </div>
 
-        {error && (
-          <div className="results-section error-message">
-            <h2>Error</h2>
-            <pre>{error}</pre>
-          </div>
-        )}
+            {error && (
+              <div className="results-section error-message">
+                <h2>Error</h2>
+                <pre>{error}</pre>
+              </div>
+            )}
 
-        {coverLetter && (
-          <div className="results-section">
-            <h2>Generated Cover Letter</h2>
-            <pre className="cover-letter-output">{coverLetter}</pre>
+            {coverLetter && (
+              <div className="results-section">
+                <h2>Generated Cover Letter</h2>
+                <pre className="cover-letter-output">{coverLetter}</pre>
+              </div>
+            )}
+             {!isLoading && !coverLetter && !error && (
+              <div className="results-section placeholder-text">
+                <p>Your generated cover letter will appear here once submitted.</p>
+              </div>
+            )}
           </div>
-        )}
-         {!isLoading && !coverLetter && !error && (
-          <div className="results-section placeholder-text">
-            <p>Your generated cover letter will appear here once submitted.</p>
-          </div>
-        )}
+        </div>
       </main>
       <footer className="App-footer">
         <p>&copy; {new Date().getFullYear()} Cover Letter Generator</p>

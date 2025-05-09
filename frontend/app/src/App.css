@@ -1,19 +1,24 @@
+:root {
+  --primary-color: #084f14; /* Define a primary blue */
+  --primary-color-dark: #084f14; /* Darker shade for hover */
+}
+
 /* Reset and base styles */
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f4f7f6;
-  color: #333;
+  background-color: #f8f9fa; /* Lighter, cleaner background */
+  color: #212529; /* Darker, more standard text color */
   line-height: 1.6;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
+    monospace; /* Updated monospace font stack */
 }
 
 /* App container */
@@ -26,155 +31,226 @@ code {
 
 /* Header */
 .App-header {
-  background-color: #2c3e50; /* Dark blue-grey */
-  padding: 20px 0;
-  color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--primary-color); /* Use primary color */
+  padding: 25px 20px;
+  color: #ffffff; /* White text for contrast */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid #e9ecef;
 }
 
 .App-header h1 {
   margin: 0;
-  font-size: 2em;
+  font-size: 1.75em; /* Slightly smaller, cleaner H1 */
+  font-weight: 600; /* Semi-bold for a modern feel */
 }
 
 /* Main content area */
 main {
   flex-grow: 1;
-  padding: 20px;
-  max-width: 800px;
-  margin: 20px auto;
-  width: 90%;
+  padding: 30px 20px;
+  max-width: 1000px; /* Increased from 760px */
+  margin: 30px auto; /* This centers the main block */
+  width: 92%;        /* Increased from 90% */
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
-  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-radius: 12px; /* More rounded corners */
+}
+
+/* New styles for two-column layout */
+.main-content-columns {
+  display: flex;
+  flex-direction: row;
+  gap: 40px; /* Space between form column and results column */
+}
+
+.cover-letter-form { /* This is now the left column */
+  flex: 1 1 50%; 
+  max-width: none; 
+  margin: 0; 
+  /* Removed: display: flex, flex-direction: row, align-items: flex-start, gap: 30px */
+  /* These were for the internal layout when button was inside */
+  /* .form-inputs-column will now dictate the internal layout of the form */
+}
+
+.form-inputs-column {
+  flex-grow: 1; 
+  display: flex;
+  flex-direction: column;
+  gap: 25px; 
+}
+
+.results-area-column { /* This is the new right column */
+  flex: 1 1 50%; 
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Add a gap between the button and the results sections below it */
+}
+
+.form-submit-column {
+  /* Removed: flex-shrink: 0; padding-top: 35px; */
+  /* These might not be needed or might need different values now */
+  width: 100%; /* Make the button container take full width of its column */
+  display: flex; /* To help center the button if needed, or align it */
+  justify-content: flex-end; /* Align button to the right of its container */
 }
 
 /* Form styling */
-.cover-letter-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px; /* Space between form groups */
-  max-width: 550px; /* Or your preferred width for the form itself */
-  margin: 10x;   /* This will center the form block */
-}
-
 .form-group {
-  text-align: left;
-  /* width: 100%; /* This is good if .cover-letter-form has a max-width */
+  text-align: left; /* Reverting to left, as center might look odd here */
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #34495e; /* Slightly lighter blue-grey */
+  margin-bottom: 10px; /* Increased margin */
+  font-weight: 500; /* Medium weight */
+  color: #495057; /* Softer label color */
+  font-size: 0.95em;
 }
 
 .form-group input[type="text"],
 .form-group input[type="file"],
 .form-group textarea {
-  width: 100%; /* Make inputs take full width of their .form-group parent */
-  padding: 10px;
-  border: 1px solid #bdc3c7; /* Light grey border */
-  border-radius: 4px;
+  width: 100%;
+  padding: 12px 15px; /* Increased padding */
+  border: 1px solid #ced4da; /* Standard border color */
+  border-radius: 6px; /* Slightly more rounded */
   font-size: 1em;
   font-family: inherit;
-  box-sizing: border-box; /* Important for width: 100% to include padding/border */
+  box-sizing: border-box;
+  background-color: #fff; /* Ensure background is white */
+  color: #495057;
 }
 
 .form-group input[type="file"] {
-  padding: 7px; /* Specific padding for file input if needed */
+  padding: 10px 12px; /* Adjusted padding for file input */
+  background-color: #f8f9fa; /* Slightly different bg for file input area */
+  border: 1px dashed #ced4da; /* Dashed border for dropzone feel */
+  cursor: pointer;
 }
 
 .form-group input[type="text"]:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group input[type="file"]:focus {
   outline: none;
-  border-color: #3498db; /* Blue focus */
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  border-color: #80bdff; /* Standard bootstrap focus color */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Standard bootstrap focus shadow */
 }
 
 .form-group small {
   display: block;
-  margin-top: 5px;
-  font-size: 0.85em;
-  color: #7f8c8d; /* Greyish text for notes */
+  margin-top: 8px; /* Increased margin */
+  font-size: 0.875em; /* Slightly larger small text */
+  color: #084f14; /* Standard muted text color */
 }
 
 /* Style for displaying selected file name */
 .file-name {
   font-size: 0.9em;
-  color: #555;
-  margin-top: 5px;
+  color: #495057;
+  margin-top: 8px;
   margin-bottom: 0;
-  font-style: italic;
+  font-style: normal;
+  font-weight: 500;
+  background-color: #e9ecef; /* Light background for file name */
+  padding: 5px 10px;
+  border-radius: 4px;
+  display: inline-block; /* To contain background */
 }
 
 button[type="submit"] {
-  background-color: #3498db; /* Blue */
+  background-color: var(--primary-color);
   color: white;
   border: none;
-  padding: 12px 20px;
-  font-size: 1.1em;
-  border-radius: 4px;
+  padding: 12px 25px;
+  font-size: 1.05em;
+  font-weight: 500;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-  display: block; /* Necessary for margin:auto to work for horizontal centering */
-  margin: 20px auto 0 auto; /* Top margin, auto left/right for centering */
-  min-width: 200px; /* Optional: give the button a nice minimum width */
-  /* align-self: flex-start; /* REMOVE THIS if present */
+  transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  /* display: block; /* Might not be needed if parent is flex */
+  /* margin: 0; /* Already set */
+  min-width: 220px; /* Keep or adjust as needed */
+  /* align-self: flex-start; /* Or flex-end, or center depending on desired alignment within form-submit-column */
 }
 
 button[type="submit"]:hover {
-  background-color: #2980b9; /* Darker blue */
+  background-color: var(--primary-color-dark); /* Use darker primary for hover */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+button[type="submit"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5); /* Focus shadow */
 }
 
 button[type="submit"]:disabled {
-  background-color: #a9cce3; /* Lighter, disabled blue */
+  background-color: #084f14; /* Grey for disabled */
+  border-color: #6c757d;
   cursor: not-allowed;
+  opacity: 0.65;
 }
 
 /* Results section */
 .results-section {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: #ecf0f1; /* Very light grey background */
-  border-radius: 4px;
+  margin-top: 0; /* Remove top margin as it's now in a column */
+  padding: 25px; /* Increased padding */
+  background-color: #f8f9fa; /* Light grey for contrast */
+  border: 1px solid #e9ecef; /* Subtle border */
+  border-radius: 8px; /* Rounded corners */
   text-align: left;
 }
 
 .results-section h2 {
   margin-top: 0;
-  color: #2c3e50;
+  margin-bottom: 20px;
+  color: var(--primary-color); /* Use primary color */
+  font-size: 1.5em;
+  font-weight: 600;
+  border-bottom: 1px solid #dee2e6; /* Separator line */
+  padding-bottom: 10px;
 }
 
 .cover-letter-output {
-  white-space: pre-wrap; /* Preserve whitespace and newlines */
-  word-wrap: break-word; /* Break long words */
-  background-color: #fff;
-  padding: 15px;
-  border: 1px solid #dde4e6;
-  border-radius: 4px;
-  max-height: 400px; /* Limit height and make scrollable if needed */
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background-color: #ffffff;
+  padding: 20px; /* Increased padding */
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  max-height: 450px; /* Increased max height */
   overflow-y: auto;
-  font-family: 'Courier New', Courier, monospace; /* Monospaced for better formatting of pre-like text */
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 0.9em; /* Slightly smaller for pre text */
+  line-height: 1.7; /* Better line height for readability */
+  color: #212529;
 }
 
 .error-message pre {
-  color: #c0392b; /* Red for error messages */
+  color: #721c24; /* Bootstrap danger text color */
+  background-color: #f8d7da; /* Bootstrap danger background */
+  border: 1px solid #f5c6cb; /* Bootstrap danger border */
+  padding: 15px; /* Added padding */
+  border-radius: 6px; /* Rounded corners */
   white-space: pre-wrap;
   word-wrap: break-word;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  font-size: 0.9em;
 }
 
 .placeholder-text p {
-  color: #7f8c8d;
-  font-style: italic;
+  color: #6c757d;
+  font-style: normal;
+  font-size: 1em;
+  text-align: center;
+  padding: 20px 0;
 }
 
 /* Footer */
 .App-footer {
-  padding: 15px 0;
-  background-color: #34495e; /* Medium blue-grey */
-  color: #ecf0f1; /* Light text color for footer */
+  padding: 20px 0; /* Increased padding */
+  background-color: #343a40; /* Darker footer background */
+  color: #f8f9fa; /* Light text for footer */
   font-size: 0.9em;
-  margin-top: auto; /* Pushes footer to the bottom */
+  margin-top: auto;
+  text-align: center; /* Ensure text is centered */
 }
