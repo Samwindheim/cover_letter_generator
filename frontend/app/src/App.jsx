@@ -6,10 +6,14 @@ const API_BASE_URL = 'http://127.0.0.1:8000'
 
 function App() {
   const [jobDescription, setJobDescription] = useState('');
-  const [resumePath, setResumePath] = useState(''); // Temporary for path input
+  const [resumeFile, setResumeFile] = useState(null);
   const [coverLetter, setCoverLetter] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const handleFileChange = (event) => {
+    setResumeFile(event.target.files[0]);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -17,18 +21,22 @@ function App() {
     setError('');
     setCoverLetter('');
 
-    // Basic validation
-    if (!jobDescription.trim() || !resumePath.trim()) {
-      setError('Both resume path and job description are required.');
+    if (!jobDescription.trim() || !resumeFile) {
+      setError('Both resume file and job description are required.');
       setIsLoading(false);
       return;
     }
 
+    const formData = new FormData();
+    formData.append('resume_file', resumeFile);
+    formData.append('job_description', jobDescription);
+
     try {
-      console.log("Sending to backend:", { resume_path: resumePath, job_description: jobDescription });
-      const response = await axios.post(`${API_BASE_URL}/generate_cover_letter/`, {
-        resume_path: resumePath, // Ensure keys match FastAPI model
-        job_description: jobDescription,
+      console.log("Sending to backend with FormData...");
+      const response = await axios.post(`${API_BASE_URL}/generate_cover_letter/`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
 
       if (response.data && response.data.cover_letter) {
@@ -39,19 +47,14 @@ function App() {
     } catch (err) {
       console.error("API Error:", err);
       if (err.response && err.response.data && err.response.data.detail) {
-        // FastAPI validation errors or specific HTTPException details
         if (Array.isArray(err.response.data.detail)) {
-             // Handle Pydantic validation errors (which are an array of objects)
              setError(err.response.data.detail.map(d => `${d.loc.join(' -> ')}: ${d.msg}`).join('\n'));
         } else {
-            // Handle other FastAPI HTTPExceptions (string detail)
             setError(err.response.data.detail);
         }
       } else if (err.request) {
-        // The request was made but no response was received
         setError('Could not connect to the server. Please ensure the backend is running.');
       } else {
-        // Something happened in setting up the request that triggered an Error
         setError(`An error occurred: ${err.message}`);
       }
     } finally {
@@ -67,16 +70,16 @@ function App() {
       <main>
         <form onSubmit={handleSubmit} className="cover-letter-form">
           <div className="form-group">
-            <label htmlFor="resumePath">Resume PDF Path:</label>
+            <label htmlFor="resumeFile">Resume PDF:</label>
             <input
-              type="text"
-              id="resumePath"
-              value={resumePath}
-              onChange={(e) => setResumePath(e.target.value)}
-              placeholder="/path/to/your/resume.pdf"
+              type="file"
+              id="resumeFile"
+              onChange={handleFileChange}
+              accept=".pdf"
               disabled={isLoading}
             />
-            <small>Note: Enter the full local path to your resume PDF. This will be replaced by a file upload later.</small>
+            {resumeFile && <p className="file-name">Selected file: {resumeFile.name}</p>}
+            <small>Upload your resume in PDF format.</small>
           </div>
 
           <div className="form-group">
@@ -91,7 +94,7 @@ function App() {
             />
           </div>
 
-          <button type="submit" disabled={isLoading}>
+          <button type="submit" disabled={isLoading || !resumeFile}>
             {isLoading ? 'Generating...' : 'Generate Cover Letter'}
           </button>
         </form>

@@ -46,7 +46,7 @@ main {
   width: 90%;
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
-  border-radius: 8px;
+  border-radius: 20px;
 }
 
 /* Form styling */
@@ -54,10 +54,13 @@ main {
   display: flex;
   flex-direction: column;
   gap: 20px; /* Space between form groups */
+  max-width: 550px; /* Or your preferred width for the form itself */
+  margin: 10x;   /* This will center the form block */
 }
 
 .form-group {
   text-align: left;
+  /* width: 100%; /* This is good if .cover-letter-form has a max-width */
 }
 
 .form-group label {
@@ -68,13 +71,19 @@ main {
 }
 
 .form-group input[type="text"],
+.form-group input[type="file"],
 .form-group textarea {
-  width: calc(100% - 22px); /* Account for padding and border */
+  width: 100%; /* Make inputs take full width of their .form-group parent */
   padding: 10px;
   border: 1px solid #bdc3c7; /* Light grey border */
   border-radius: 4px;
   font-size: 1em;
   font-family: inherit;
+  box-sizing: border-box; /* Important for width: 100% to include padding/border */
+}
+
+.form-group input[type="file"] {
+  padding: 7px; /* Specific padding for file input if needed */
 }
 
 .form-group input[type="text"]:focus,
@@ -91,6 +100,15 @@ main {
   color: #7f8c8d; /* Greyish text for notes */
 }
 
+/* Style for displaying selected file name */
+.file-name {
+  font-size: 0.9em;
+  color: #555;
+  margin-top: 5px;
+  margin-bottom: 0;
+  font-style: italic;
+}
+
 button[type="submit"] {
   background-color: #3498db; /* Blue */
   color: white;
@@ -100,7 +118,10 @@ button[type="submit"] {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
-  align-self: flex-start; /* Align button to the left */
+  display: block; /* Necessary for margin:auto to work for horizontal centering */
+  margin: 20px auto 0 auto; /* Top margin, auto left/right for centering */
+  min-width: 200px; /* Optional: give the button a nice minimum width */
+  /* align-self: flex-start; /* REMOVE THIS if present */
 }
 
 button[type="submit"]:hover {
