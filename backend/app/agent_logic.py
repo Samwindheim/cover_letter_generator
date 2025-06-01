@@ -61,7 +61,7 @@ def generate_cover_letter_node(state: AgentState) -> dict:
     system_prompt = """You are an expert cover letter writer. Your task is to create a compelling,
     personalized cover letter that highlights the candidate's relevant experience and skills
     based on their resume and the job description. The cover letter should be approximately
-    450 words and should:
+    400 words and should:
     1. Be professional and engaging
     2. Highlight relevant skills and experiences
     3. Show how the candidate's background aligns with the job requirements

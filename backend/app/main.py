@@ -3,6 +3,8 @@ import shutil # For file operations
 import tempfile # For temporary file/directory
 from fastapi import FastAPI, HTTPException, Body, UploadFile, File, Form # Added UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware # For frontend later
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from contextlib import asynccontextmanager
 
 from langtrace_python_sdk import langtrace # Import langtrace
@@ -38,7 +40,7 @@ async def lifespan(app: FastAPI):
         raise RuntimeError("OPENAI_API_KEY not set. Application cannot start.")
     
     print("Initializing ChatOpenAI model...")
-    llm_model = ChatOpenAI(api_key=openai_api_key, model="gpt-4")
+    llm_model = ChatOpenAI(api_key=openai_api_key, model="gpt-4.1")
     
     print("Creating LangGraph application...")
     cover_letter_graph = create_graph()
@@ -59,9 +61,35 @@ app.add_middleware(
     allow_headers=["*"], # Allows all headers
 )
 
-@app.get("/")
-async def read_root():
+# Serve static files from the Next.js PWA build output
+app.mount("/_next", StaticFiles(directory="../frontend/out/_next"), name="next-static")
+
+@app.get("/api/health")
+async def api_health():
     return {"message": "Cover Letter Generator API is running."}
+
+@app.get("/{full_path:path}")
+async def serve_spa(full_path: str):
+    # This route helps with client-side routing for SPAs like Next.js PWAs.
+    # It serves index.html for any path not caught by other routes or static files.
+    # Check if the requested path corresponds to a file in the static directory first
+    # This avoids serving index.html for actual static files like images or CSS if they are directly requested.
+    # Note: Next.js often serves assets from /_next/static, which is handled by the app.mount above.
+    # This catch-all is primarily for client-side navigation paths.
+    
+    # Check if the file exists in the main 'out' directory or common subdirectories
+    # This might need adjustment based on your Next.js export structure
+    possible_paths = [
+        os.path.join("../frontend/out", full_path),
+        os.path.join("../frontend/out", full_path, "index.html") # For paths like /about/
+    ]
+    
+    for path_to_check in possible_paths:
+        if os.path.isfile(path_to_check):
+            return FileResponse(path_to_check)
+            
+    # If no specific file found, serve the main index.html for SPA routing
+    return FileResponse("../frontend/out/index.html")
 
 @app.post("/generate_cover_letter/", response_model=GenerateResponse)
 async def generate_cover_letter_endpoint(
