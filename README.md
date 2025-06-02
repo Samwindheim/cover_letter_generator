@@ -87,7 +87,3 @@ LANGTRACE_KEY=your_langtrace_api_key_here
       "detail": "Error message or validation details..."
     }
     ```
-
-## Contributing
-
-(Optional: Add guidelines if you plan to have contributors)
