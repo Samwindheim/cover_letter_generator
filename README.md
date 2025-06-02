@@ -1,6 +1,41 @@
 # Cover Letter Generator
 
-This project is a full-stack application that generates cover letters based on an uploaded resume (PDF) and a job description.
+An AI-powered full-stack application that generates personalized cover letters based on an uploaded resume (PDF) and a job description.
+
+## Key Features
+
+- **AI-Powered Generation:** Leverages LLM (GPT 4.1 nano) to create tailored cover letters.
+- **User-Friendly Interface:** Simple web UI for uploading resumes and inputting job descriptions.
+- **PDF Resume Parsing:** Extracts text content from uploaded PDF resumes.
+- **Interactive Feedback:** Provides notifications for successful operations or errors.
+- **Copy to Clipboard:** Easily copy the generated cover letter.
+
+## Tech Stack & Skills Demonstrated
+
+- **Frontend:**
+
+  - Framework: Next.js, React (v19)
+  - Language: TypeScript
+  - UI: Shadcn/UI, Radix UI Primitives, Custom React Hooks (e.g., for Toasts)
+  - Styling: Tailwind CSS (with `tailwindcss-animate`)
+  - Icons: Lucide React
+  - API Communication: Client-side `fetch` for interaction with backend API.
+
+- **Backend:**
+
+  - Framework: FastAPI (Python)
+  - Language: Python
+  - AI/LLM Orchestration: LangChain & LangGraph for building and managing the generation agent.
+  - LLM Interaction: OpenAI GPT-4.1 (via `langchain-openai`).
+  - Data Handling: Pydantic for data validation, PDF parsing (`PyPDFLoader`), secure file upload and temporary file management.
+  - API Design: RESTful endpoint with `multipart/form-data` handling.
+  - Asynchronous Programming: Utilizing `async/await` in FastAPI.
+
+- **Full-Stack & General:**
+  - Full-Stack Integration: Seamless connection between Next.js frontend and FastAPI backend.
+  - Environment Management: Python virtual environments, `python-dotenv` for API keys.
+  - Version Control: Git & GitHub.
+  - Observability: Setup for Langtrace (performance tracing for LLM applications).
 
 ## Project Structure
 
